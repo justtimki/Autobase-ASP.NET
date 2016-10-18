@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace kurs
+namespace Autobase
 {
     public class BundleConfig
     {

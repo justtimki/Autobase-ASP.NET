@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace kurs
+namespace Autobase
 {
     public class FilterConfig
     {

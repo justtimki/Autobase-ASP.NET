@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace kurs.Models.enums
+namespace Autobase.Models.enums
 {
     public enum TripStatusEnum
     {

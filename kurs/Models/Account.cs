@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 
-namespace kurs.Models
+namespace Autobase.Models
 {
     public class Account
     {

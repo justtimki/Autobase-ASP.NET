@@ -1,11 +1,11 @@
-﻿using kurs.Models.enums;
+﻿using Autobase.Models.enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
 
-namespace kurs.Models
+namespace Autobase.Models
 {
     public class Order
     {
