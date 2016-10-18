@@ -12,6 +12,7 @@ namespace Autobase.Models
         public string AccountName { get; set; }
         public bool IsDispatcher { get; set; }
         public string Password { get; set; }
+        public int? CarId { get; set; }
         public Car Car { get; set; }
     }
 }
