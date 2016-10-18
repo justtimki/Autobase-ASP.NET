@@ -13,13 +13,13 @@ namespace Autobase
     {
         protected void Application_Start()
         {
+            // Setup DI
+            UnityConfig.RegisterComponents();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            
-            // Setup DI
-            Bootstrapper.Initialise();
         }
     }
 }
