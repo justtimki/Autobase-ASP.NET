@@ -3,29 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Autobase.Models;
+using Autobase.App_Context;
 
 namespace Autobase.DAO.MSSQLImpl
 {
     public class MSSQLAccountDAO : AccountDAO
     {
+        readonly ApplicationContext appContext;
+
+        public MSSQLAccountDAO(ApplicationContext appContext)
+        {
+            this.appContext = appContext;
+        }
+
         public void Create(Account account)
         {
-            throw new NotImplementedException();
+            appContext.Accounts.Add(account);
+            appContext.SaveChanges();
         }
 
         public void Delete(Account account)
         {
-            throw new NotImplementedException();
+            appContext.Accounts.Remove(account);
+            appContext.SaveChanges();
         }
 
         public List<Account> Read()
         {
-            throw new NotImplementedException();
+            List<Account> accounts = appContext.Accounts.ToList();
+            return accounts;
         }
 
         public void Update(Account account)
         {
-            throw new NotImplementedException();
+            //Account accToChange = appContext.Accounts.First(acc => acc.AccountId == account.AccountId);
+            //accToChange.AccountName = account.AccountName;
+            //accToChange.Car = account.Car;
+            //accToChange.IsDispatcher = account.IsDispatcher;
+            //accToChange.Password = account.Password;
+            //accToChange.CarId = account.CarId;
+
+            //appContext.Accounts.Add(accToChange);
         }
     }
 }
