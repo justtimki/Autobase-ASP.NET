@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
+using System.Data.Entity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
@@ -36,7 +37,23 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Trip trip)
         {
-            throw new NotImplementedException();
+            Trip tripToChange = appContext.Trips.First(t => trip.TripId == t.TripId);
+            if (tripToChange == null)
+            {
+                throw new ArgumentException("Trip with id " + trip.TripId + " not found.");
+            }
+
+            tripToChange.Oder = trip.Oder;
+            tripToChange.OrderId = trip.OrderId;
+            tripToChange.Car = trip.Car;
+            tripToChange.CarId = trip.CarId;
+            tripToChange.Account = trip.Account;
+            tripToChange.AccountId = trip.AccountId;
+            tripToChange.TripDate = trip.TripDate;
+            tripToChange.TripName = trip.TripName;
+
+            appContext.Entry(tripToChange).State = EntityState.Modified;
+            appContext.SaveChanges(); 
         }
     }
 }

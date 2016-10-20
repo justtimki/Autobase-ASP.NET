@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
+using System.Data.Entity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
@@ -36,14 +37,20 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Account account)
         {
-            //Account accToChange = appContext.Accounts.First(acc => acc.AccountId == account.AccountId);
-            //accToChange.AccountName = account.AccountName;
-            //accToChange.Car = account.Car;
-            //accToChange.IsDispatcher = account.IsDispatcher;
-            //accToChange.Password = account.Password;
-            //accToChange.CarId = account.CarId;
+            Account accToChange = appContext.Accounts.First(acc => acc.AccountId == account.AccountId);
+            if (accToChange == null)
+            {
+                throw new ArgumentException("Account with id " + account.AccountId + " not found.");
+            }
 
-            //appContext.Accounts.Add(accToChange);
+            accToChange.AccountName = account.AccountName;
+            accToChange.Car = account.Car;
+            accToChange.IsDispatcher = account.IsDispatcher;
+            accToChange.Password = account.Password;
+            accToChange.CarId = account.CarId;
+
+            appContext.Entry(accToChange).State = EntityState.Modified;
+            appContext.Accounts.Add(accToChange);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
+using System.Data.Entity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
@@ -36,7 +37,19 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Order order)
         {
-            
+            Order orderToChange = appContext.Orders.First(o => order.OrderId == o.OrderId);
+            if (orderToChange == null)
+            {
+                throw new ArgumentException("Order with id " + order.OrderId + " not found.");
+            }
+
+            orderToChange.OrderName = order.OrderName;
+            orderToChange.RequiredCarCapacity = order.RequiredCarCapacity;
+            orderToChange.RequiredCarSpeed = order.RequiredCarSpeed;
+            orderToChange.Status = order.Status;
+
+            appContext.Entry(orderToChange).State = EntityState.Modified;
+            appContext.SaveChanges();
         }
     }
 }

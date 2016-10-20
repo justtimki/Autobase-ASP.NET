@@ -13,6 +13,6 @@ namespace Autobase.Models
         public string OrderName { get; set; }
         public double RequiredCarSpeed { get; set; }
         public double RequiredCarCapacity { get; set; }
-        public TripStatusEnum status { get; set; }
+        public TripStatusEnum Status { get; set; }
     }
 }
