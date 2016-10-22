@@ -12,5 +12,6 @@ namespace Autobase.DAO
         void Create(Account account);
         void Delete(Account account);
         void Update(Account account);
+        Account GetAccountByNameAndPass(string accountName, string password);
     }
 }

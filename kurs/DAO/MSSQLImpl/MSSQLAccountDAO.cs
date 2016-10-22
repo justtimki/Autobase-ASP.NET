@@ -29,6 +29,14 @@ namespace Autobase.DAO.MSSQLImpl
             appContext.SaveChanges();
         }
 
+        public Account GetAccountByNameAndPass(string accountName, string password)
+        {
+            Account acc = appContext.Accounts.FirstOrDefault(a =>
+                a.AccountName.Equals(accountName) && a.Password.Equals(password));
+
+            return acc;
+        }
+
         public List<Account> Read()
         {
             List<Account> accounts = appContext.Accounts.ToList();

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "LoginPage";
+}
+
+<h2>LoginPage</h2>
+
+@using (Html.BeginForm("Authenticate", "Login", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <input type="text" name="login" value="" />
+    <input type="password" name="password" value="" />
+    <button type="submit">Log in</button>
+}
+
+@Html.ValidationSummary();
