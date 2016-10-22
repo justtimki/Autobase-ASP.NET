@@ -157,6 +157,7 @@
   <ItemGroup>
     <Compile Include="App_Context\ApplicationContext.cs" />
     <Compile Include="App_Context\DatabaseInitializer.cs" />
+    <Compile Include="App_Context\SessionContext.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -176,6 +177,7 @@
     </Compile>
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\enums\Role.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\enums\TripStatusEnum.cs" />
     <Compile Include="Models\Trip.cs" />

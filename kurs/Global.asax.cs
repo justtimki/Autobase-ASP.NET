@@ -42,9 +42,7 @@ namespace Autobase
                         Account user = appContext.Accounts.FirstOrDefault(a => a.AccountId == Convert.ToInt32(id.Name));
 
                         HttpContext.Current.Items[SessionContext.CurrentUserKey] = user;
-                        HttpContext.Current.User = new GenericPrincipal(id, new string[] {
-                            (user.IsDispatcher) ? "dispathcer" : "driver"
-                        });
+                        HttpContext.Current.User = new GenericPrincipal(id, new string[] { user.Role.ToString() });
                     }
                 }
             }

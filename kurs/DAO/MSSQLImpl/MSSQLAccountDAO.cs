@@ -53,7 +53,7 @@ namespace Autobase.DAO.MSSQLImpl
 
             accToChange.AccountName = account.AccountName;
             accToChange.Car = account.Car;
-            accToChange.IsDispatcher = account.IsDispatcher;
+            accToChange.Role = account.Role;
             accToChange.Password = account.Password;
             accToChange.CarId = account.CarId;
 

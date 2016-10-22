@@ -1,5 +1,6 @@
 ﻿using Autobase.DAO;
 using Autobase.Models;
+using Autobase.Models.enums;
 using Autobase.Utils;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace Autobase.App_Context
             {
                 acc = new Account();
                 acc.AccountName = RandomUtil.GetInstance.GetRandomString;
-                acc.IsDispatcher = RandomUtil.GetInstance.GetRandomBool;
+                acc.Role = RandomUtil.GetInstance.GetRandomBool ? Role.DISPATHCER : Role.DRIVER;
                 acc.Password = RandomUtil.GetInstance.GetRandomString;
                 //if (!acc.IsDispatcher)
                 //{
