@@ -9,8 +9,11 @@ namespace Autobase.App_Context
 {
     public class ApplicationContext : DbContext
     {
+
         public ApplicationContext() : base("Autobase")
-        { }
+        {
+
+        }
 
         public DbSet<Car> Cars { get; set; }
         public DbSet<Account> Accounts { get; set; }

@@ -5,39 +5,41 @@ using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
 using System.Data.Entity;
+using Microsoft.Practices.Unity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
     public class MSSQLTripDAO : TripDAO
     {
-        readonly ApplicationContext appContext;
-
-        public MSSQLTripDAO(ApplicationContext appContext)
-        {
-            this.appContext = appContext;
-        }
+        [Dependency]
+        public ApplicationContext AppContext { get; set; }
 
         public void Create(Trip trip)
         {
-            appContext.Trips.Add(trip);
-            appContext.SaveChanges();
+            AppContext.Trips.Add(trip);
+            AppContext.SaveChanges();
         }
 
         public void Delete(Trip trip)
         {
-            appContext.Trips.Remove(trip);
-            appContext.SaveChanges();
+            AppContext.Trips.Remove(trip);
+            AppContext.SaveChanges();
+        }
+
+        public Trip getTripById(int id)
+        {
+            return AppContext.Trips.First(trip => trip.TripId == id);
         }
 
         public List<Trip> Read()
         {
-            List<Trip> trips = appContext.Trips.ToList();
+            List<Trip> trips = AppContext.Trips.ToList();
             return trips;
         }
 
         public void Update(Trip trip)
         {
-            Trip tripToChange = appContext.Trips.First(t => trip.TripId == t.TripId);
+            Trip tripToChange = AppContext.Trips.First(t => trip.TripId == t.TripId);
             if (tripToChange == null)
             {
                 throw new ArgumentException("Trip with id " + trip.TripId + " not found.");
@@ -52,8 +54,8 @@ namespace Autobase.DAO.MSSQLImpl
             tripToChange.TripDate = trip.TripDate;
             tripToChange.TripName = trip.TripName;
 
-            appContext.Entry(tripToChange).State = EntityState.Modified;
-            appContext.SaveChanges(); 
+            AppContext.Entry(tripToChange).State = EntityState.Modified;
+            AppContext.SaveChanges(); 
         }
     }
 }

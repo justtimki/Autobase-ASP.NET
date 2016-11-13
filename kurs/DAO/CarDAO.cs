@@ -12,5 +12,6 @@ namespace Autobase.DAO
         void Create(Car car);
         void Delete(Car car);
         void Update(Car car);
+        Car GetById(int id);
     }
 }

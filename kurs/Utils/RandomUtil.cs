@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autobase.Models.enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,6 +62,33 @@ namespace Autobase.Utils
             get
             {
                 return (rand.Next(0, 2) == 1);
+            }
+        }
+
+        public TripStatusEnum GetRandomStatus
+        {
+            get
+            {
+                Array enumValues = Enum.GetValues(typeof(TripStatusEnum));
+                int length = enumValues.Length;
+                int randomIndex = rand.Next(0, 3);
+                return (TripStatusEnum) enumValues.GetValue(randomIndex);
+            }
+        }
+
+        public int GetRandomId
+        {
+            get
+            {
+                return rand.Next(0, 100);
+            }
+        }
+
+        public DateTime GetRandomDate
+        {
+            get
+            {
+                return DateTime.UtcNow.AddDays(new Random().Next(90));
             }
         }
 

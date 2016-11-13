@@ -12,5 +12,6 @@ namespace Autobase.DAO
         void Create(Order order);
         void Delete(Order order);
         void Update(Order order);
+        Order GetOrderById(int id);
     }
 }

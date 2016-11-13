@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using Autobase.Models.enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Autobase.Models
 {

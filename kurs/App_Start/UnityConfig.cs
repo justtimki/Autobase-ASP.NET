@@ -4,6 +4,7 @@ using Unity.Mvc5;
 using Autobase.App_Context;
 using Autobase.DAO;
 using Autobase.DAO.MSSQLImpl;
+using System.Data.Entity;
 
 namespace Autobase
 {
@@ -17,8 +18,9 @@ namespace Autobase
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-
-            container.RegisterType<ApplicationContext>();
+            
+            container.RegisterType(typeof(ApplicationContext));
+            //container.RegisterType<ApplicationContext>();
             container.RegisterType<CarDAO, MSSQLCarDAO>();
             container.RegisterType<AccountDAO, MSSQLAccountDAO>();
             container.RegisterType<OrderDAO, MSSQLOrderDAO>();

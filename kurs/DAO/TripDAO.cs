@@ -12,5 +12,6 @@ namespace Autobase.DAO
         void Create(Trip trip);
         void Delete(Trip trip);
         void Update(Trip trip);
+        Trip getTripById(int id);
     }
 }

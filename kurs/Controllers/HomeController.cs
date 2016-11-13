@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autobase.DAO;
+using Autobase.Models;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +11,12 @@ namespace Autobase.Controllers
 {
     public class HomeController : Controller
     {
+        [Dependency]
+        public CarDAO CarDAO { get; set; }
+
         public ActionResult Index()
         {
+            CarDAO.Read();
             return View();
         }
 

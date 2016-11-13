@@ -5,33 +5,35 @@ using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
 using System.Data.Entity;
+using Microsoft.Practices.Unity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
     public class MSSQLAccountDAO : AccountDAO
     {
-        readonly ApplicationContext appContext;
-
-        public MSSQLAccountDAO(ApplicationContext appContext)
-        {
-            this.appContext = appContext;
-        }
+        [Dependency]
+        public ApplicationContext AppContext { get; set; }
 
         public void Create(Account account)
         {
-            appContext.Accounts.Add(account);
-            appContext.SaveChanges();
+            AppContext.Accounts.Add(account);
+            AppContext.SaveChanges();
         }
 
         public void Delete(Account account)
         {
-            appContext.Accounts.Remove(account);
-            appContext.SaveChanges();
+            AppContext.Accounts.Remove(account);
+            AppContext.SaveChanges();
+        }
+
+        public Account GetAccountById(int id)
+        {
+            return AppContext.Accounts.First(acc => acc.AccountId == id);
         }
 
         public Account GetAccountByNameAndPass(string accountName, string password)
         {
-            Account acc = appContext.Accounts.FirstOrDefault(a =>
+            Account acc = AppContext.Accounts.FirstOrDefault(a =>
                 a.AccountName.Equals(accountName) && a.Password.Equals(password));
 
             return acc;
@@ -39,13 +41,13 @@ namespace Autobase.DAO.MSSQLImpl
 
         public List<Account> Read()
         {
-            List<Account> accounts = appContext.Accounts.ToList();
+            List<Account> accounts = AppContext.Accounts.ToList();
             return accounts;
         }
 
         public void Update(Account account)
         {
-            Account accToChange = appContext.Accounts.First(acc => acc.AccountId == account.AccountId);
+            Account accToChange = AppContext.Accounts.First(acc => acc.AccountId == account.AccountId);
             if (accToChange == null)
             {
                 throw new ArgumentException("Account with id " + account.AccountId + " not found.");
@@ -57,8 +59,8 @@ namespace Autobase.DAO.MSSQLImpl
             accToChange.Password = account.Password;
             accToChange.CarId = account.CarId;
 
-            appContext.Entry(accToChange).State = EntityState.Modified;
-            appContext.Accounts.Add(accToChange);
+            AppContext.Entry(accToChange).State = EntityState.Modified;
+            AppContext.Accounts.Add(accToChange);
         }
     }
 }

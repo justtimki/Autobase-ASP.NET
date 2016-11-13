@@ -5,39 +5,41 @@ using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
 using System.Data.Entity;
+using Microsoft.Practices.Unity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
     public class MSSQLCarDAO : CarDAO
     {
-        readonly ApplicationContext appContext;
-
-        public MSSQLCarDAO(ApplicationContext appContext)
-        {
-            this.appContext = appContext;
-        }
+        [Dependency]
+        public ApplicationContext AppContext { get; set; }
 
         public void Create(Car car)
         {
-            appContext.Cars.Add(car);
-            appContext.SaveChanges();
+            AppContext.Cars.Add(car);
+            AppContext.SaveChanges();
         }
 
         public void Delete(Car car)
         {
-            appContext.Cars.Remove(car);
-            appContext.SaveChanges();
+            AppContext.Cars.Remove(car);
+            AppContext.SaveChanges();
+        }
+
+        public Car GetById(int id)
+        {
+            return AppContext.Cars.First(car => car.CarId == id);
         }
 
         public List<Car> Read()
         {
-            List<Car> cars = appContext.Cars.ToList();
+            List<Car> cars = AppContext.Cars.ToList();
             return cars;
         }
 
         public void Update(Car car)
         {
-            Car carToChange = appContext.Cars.First(c => c.CarId == car.CarId);
+            Car carToChange = AppContext.Cars.First(c => c.CarId == car.CarId);
             if (carToChange == null)
             {
                 throw new ArgumentException("Car with id " + car.CarId + " not found.");
@@ -47,8 +49,8 @@ namespace Autobase.DAO.MSSQLImpl
             carToChange.CarSpeed = car.CarSpeed;
             carToChange.IsHealthy = car.IsHealthy;
 
-            appContext.Entry(carToChange).State = EntityState.Modified;
-            appContext.SaveChanges();
+            AppContext.Entry(carToChange).State = EntityState.Modified;
+            AppContext.SaveChanges();
         }
     }
 }

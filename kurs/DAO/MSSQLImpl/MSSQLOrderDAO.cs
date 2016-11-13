@@ -5,39 +5,41 @@ using System.Web;
 using Autobase.Models;
 using Autobase.App_Context;
 using System.Data.Entity;
+using Microsoft.Practices.Unity;
 
 namespace Autobase.DAO.MSSQLImpl
 {
     public class MSSQLOrderDAO : OrderDAO
     {
-        readonly ApplicationContext appContext;
-
-        public MSSQLOrderDAO(ApplicationContext appContext)
-        {
-            this.appContext = appContext;
-        }
+        [Dependency]
+        public ApplicationContext AppContext { get; set; }
 
         public void Create(Order order)
         {
-            appContext.Orders.Add(order);
-            appContext.SaveChanges();
+            AppContext.Orders.Add(order);
+            AppContext.SaveChanges();
         }
 
         public void Delete(Order order)
         {
-            appContext.Orders.Remove(order);
-            appContext.SaveChanges();
+            AppContext.Orders.Remove(order);
+            AppContext.SaveChanges();
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return AppContext.Orders.First(order => order.OrderId == id);
         }
 
         public List<Order> Read()
         {
-            List<Order> orders = appContext.Orders.ToList();
+            List<Order> orders = AppContext.Orders.ToList();
             return orders;
         }
 
         public void Update(Order order)
         {
-            Order orderToChange = appContext.Orders.First(o => order.OrderId == o.OrderId);
+            Order orderToChange = AppContext.Orders.First(o => order.OrderId == o.OrderId);
             if (orderToChange == null)
             {
                 throw new ArgumentException("Order with id " + order.OrderId + " not found.");
@@ -48,8 +50,8 @@ namespace Autobase.DAO.MSSQLImpl
             orderToChange.RequiredCarSpeed = order.RequiredCarSpeed;
             orderToChange.Status = order.Status;
 
-            appContext.Entry(orderToChange).State = EntityState.Modified;
-            appContext.SaveChanges();
+            AppContext.Entry(orderToChange).State = EntityState.Modified;
+            AppContext.SaveChanges();
         }
     }
 }
