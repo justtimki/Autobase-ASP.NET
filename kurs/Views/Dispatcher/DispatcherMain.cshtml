@@ -1,0 +1,60 @@
+﻿@using Autobase.Models
+@using Autobase.Models.enums
+
+@{
+    ViewBag.Title = "DispatcherMain";
+    List<Order> orders = ViewBag.orders;
+}
+
+<h2>DispatcherMain</h2>
+
+@if (ViewBag.isTripCreated != null && ViewBag.isTripCreated)
+{
+    <div class="alert alert-success" role="alert">
+        <b>Well done!</b> You successfully created trip.
+    </div>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Orders</div>
+    <table class="table sortable">
+        <tr>
+            <td><b>Order Number</b></td>
+            <td><b>Order Name</b></td>
+            <td><b>Required Car Speed</b></td>
+            <td><b>Required Car Capacity</b></td>
+            <td><b>Status</b></td>
+        </tr>
+        @foreach (Order order in orders)
+        {
+            string bgColor = string.Empty;
+            if (TripStatusEnum.DONE.Equals(order.Status))
+            {
+                bgColor = "#DFF0D8";
+            }
+            else if (TripStatusEnum.PERFORMED.Equals(order.Status))
+            {
+                bgColor = "#FCF8E3";
+            }
+            else
+            {
+                bgColor = "#fff";
+            }
+
+            <tr style = "@("background-color:" + bgColor)">
+                <td>@order.OrderId</td>
+                <td>@order.OrderName</td>
+                <td>@order.RequiredCarSpeed</td>
+                <td>@order.RequiredCarCapacity</td>
+                <td>@order.Status</td>
+                <td>
+                    @if (TripStatusEnum.WAITING.Equals(order.Status))
+                    {
+                        @Html.ActionLink("Create Trip", "ChooseDriver", "Dispatcher", new { orderId = order.OrderId }, new { @class = "btn btn-default" })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>

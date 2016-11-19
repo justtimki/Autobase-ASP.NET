@@ -1,6 +1,7 @@
 ﻿using Autobase.App_Context;
 using Autobase.DAO;
 using Autobase.Models;
+using Autobase.Models.enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,19 +28,23 @@ namespace Autobase.Controllers
 
         public ActionResult Authenticate(string login, string password)
         {
-            //Account acc = accountDao.GetAccountByNameAndPass(login, password);
-            Account acc = new Account();
-            acc.Password = password;
-            acc.AccountName = login;
+            Account acc = accountDao.GetAccountByNameAndPass(login, password);
             if (acc == null)
             {
                 ModelState.AddModelError("Wrong input", Resources.Resource.WrongLoginOrPassword);
-                return View();
+                return View("LoginPage");
             }
             else
             {
                 CreateAuthCookie(acc);
-                return RedirectToAction("Index", "Home");
+                if (Role.DISPATHCER.Equals(acc.Role))
+                {
+                    return RedirectToAction("DispatcherMain", "Dispatcher");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
         }
 

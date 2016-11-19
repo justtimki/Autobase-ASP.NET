@@ -61,6 +61,15 @@ namespace Autobase.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Заказы.
+        /// </summary>
+        internal static string OrdersTableHeader {
+            get {
+                return ResourceManager.GetString("OrdersTableHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Логин или пароль не верны.
         /// </summary>
         internal static string WrongLoginOrPassword {

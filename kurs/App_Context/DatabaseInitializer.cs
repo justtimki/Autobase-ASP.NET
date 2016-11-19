@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Autobase.App_Context
 {
-    public class DatabaseInitializer : DropCreateDatabaseAlways<ApplicationContext>
+    public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<ApplicationContext>
     {
         private const int ROW_COUNT = 100;
         private CarDAO carDAO;
@@ -135,7 +135,7 @@ namespace Autobase.App_Context
                     acc = AccountDAO.GetAccountById(RandomUtil.GetInstance.GetRandomId);
                     j++;
                 }
-                while (acc.Car.CarSpeed <= trip.Oder.RequiredCarSpeed && acc.Car.CarCapacity <= trip.Oder.RequiredCarCapacity || j < 150);
+                while (acc.Role.Equals(Role.DISPATHCER) || acc.Car?.CarSpeed <= trip.Oder.RequiredCarSpeed && acc.Car?.CarCapacity <= trip.Oder.RequiredCarCapacity);
                 trip.Account = acc;
                 trip.Car = trip.Account.Car;
                 trip.TripName = RandomUtil.GetInstance.GetRandomString;

@@ -80,7 +80,7 @@ namespace Autobase.Utils
         {
             get
             {
-                return rand.Next(0, 100);
+                return rand.Next(1, 100);
             }
         }
 
