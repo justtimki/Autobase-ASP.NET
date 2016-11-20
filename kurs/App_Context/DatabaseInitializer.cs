@@ -97,7 +97,7 @@ namespace Autobase.App_Context
             {
                 Account acc = new Account();
                 acc.AccountName = RandomUtil.GetInstance.GetRandomString;
-                acc.Role = RandomUtil.GetInstance.GetRandomBool ? Role.DISPATHCER : Role.DRIVER;
+                acc.Role = RandomUtil.GetInstance.GetRandomBool ? Role.DISPATCHER : Role.DRIVER;
                 acc.Password = RandomUtil.GetInstance.GetRandomString;
                 if (Role.DRIVER.Equals(acc.Role))
                 {
@@ -135,7 +135,7 @@ namespace Autobase.App_Context
                     acc = AccountDAO.GetAccountById(RandomUtil.GetInstance.GetRandomId);
                     j++;
                 }
-                while (acc.Role.Equals(Role.DISPATHCER) || acc.Car?.CarSpeed <= trip.Oder.RequiredCarSpeed && acc.Car?.CarCapacity <= trip.Oder.RequiredCarCapacity);
+                while (acc.Role.Equals(Role.DISPATCHER) || acc.Car?.CarSpeed <= trip.Oder.RequiredCarSpeed && acc.Car?.CarCapacity <= trip.Oder.RequiredCarCapacity);
                 trip.Account = acc;
                 trip.Car = trip.Account.Car;
                 trip.TripName = RandomUtil.GetInstance.GetRandomString;

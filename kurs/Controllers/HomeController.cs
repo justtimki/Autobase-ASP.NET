@@ -11,12 +11,28 @@ namespace Autobase.Controllers
 {
     public class HomeController : Controller
     {
+        private AccountDAO accountDAO;
+
         [Dependency]
         public CarDAO CarDAO { get; set; }
+
+        [Dependency]
+        public AccountDAO AccountDAO
+        {
+            get
+            {
+                if (accountDAO == null)
+                {
+                    accountDAO = DependencyResolver.Current.GetService<AccountDAO>();
+                }
+                return accountDAO;
+            }
+        }
 
         public ActionResult Index()
         {
             CarDAO.Read();
+            ViewBag.accountDAO = accountDAO;
             return View();
         }
 

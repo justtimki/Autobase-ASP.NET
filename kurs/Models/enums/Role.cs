@@ -7,6 +7,6 @@ namespace Autobase.Models.enums
 {
     public enum Role
     {
-        DISPATHCER, DRIVER
+        DISPATCHER, DRIVER
     }
 }

@@ -26,6 +26,17 @@ namespace Autobase.Controllers
             return View("LoginPage");
         }
 
+        public ActionResult GetCurrentUserName()
+        {
+            return new ContentResult { Content = accountDao.GetAccountById(Convert.ToInt32(User.Identity.Name.ToString())).AccountName };
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
         public ActionResult Authenticate(string login, string password)
         {
             Account acc = accountDao.GetAccountByNameAndPass(login, password);
@@ -37,7 +48,7 @@ namespace Autobase.Controllers
             else
             {
                 CreateAuthCookie(acc);
-                if (Role.DISPATHCER.Equals(acc.Role))
+                if (Role.DISPATCHER.Equals(acc.Role))
                 {
                     return RedirectToAction("DispatcherMain", "Dispatcher");
                 }
@@ -58,7 +69,8 @@ namespace Autobase.Controllers
             var encTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
             cookie.Expires = timeoutCookie;
-            Response.Cookies.Add(cookie);
+            System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
+            System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(ticket), new string[] { acc.Role.ToString() });
         }
     }
 }

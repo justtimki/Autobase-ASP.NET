@@ -57,7 +57,9 @@ namespace Autobase
                         FormsIdentity id =
                             (FormsIdentity)HttpContext.Current.User.Identity;
 
-                        Account user = AppContext.Accounts.FirstOrDefault(a => a.AccountId == Convert.ToInt32(id.Name));
+                        int accId = Convert.ToInt32(id.Name);
+
+                        Account user = AppContext.Accounts.FirstOrDefault(a => a.AccountId == accId);
 
                         HttpContext.Current.Items[SessionContext.CurrentUserKey] = user;
                         HttpContext.Current.User = new GenericPrincipal(id, new string[] { user.Role.ToString() });

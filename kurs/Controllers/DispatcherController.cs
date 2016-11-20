@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
+    [Authorize]
     public class DispatcherController : Controller
     {
         private AccountDAO accountDAO;
@@ -111,7 +112,6 @@ namespace Autobase.Controllers
             
             return View("DispatcherMain");
         }
-
 
         private void CreateTrip(Account driver, Order order)
         {
