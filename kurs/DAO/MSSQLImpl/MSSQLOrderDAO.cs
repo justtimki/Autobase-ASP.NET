@@ -39,18 +39,7 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Order order)
         {
-            Order orderToChange = AppContext.Orders.First(o => order.OrderId == o.OrderId);
-            if (orderToChange == null)
-            {
-                throw new ArgumentException("Order with id " + order.OrderId + " not found.");
-            }
-
-            orderToChange.OrderName = order.OrderName;
-            orderToChange.RequiredCarCapacity = order.RequiredCarCapacity;
-            orderToChange.RequiredCarSpeed = order.RequiredCarSpeed;
-            orderToChange.Status = order.Status;
-
-            AppContext.Entry(orderToChange).State = EntityState.Modified;
+            AppContext.Entry(order).State = EntityState.Modified;
             AppContext.SaveChanges();
         }
     }

@@ -163,6 +163,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\DispatcherController.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="DAO\AccountDAO.cs" />
@@ -231,6 +232,7 @@
     <Content Include="Views\Login\LoginPage.cshtml" />
     <Content Include="Views\Dispatcher\DispatcherMain.cshtml" />
     <Content Include="Views\Dispatcher\ChooseDriver.cshtml" />
+    <Content Include="Views\Driver\DriverMain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -47,20 +47,8 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Account account)
         {
-            Account accToChange = AppContext.Accounts.First(acc => acc.AccountId == account.AccountId);
-            if (accToChange == null)
-            {
-                throw new ArgumentException("Account with id " + account.AccountId + " not found.");
-            }
-
-            accToChange.AccountName = account.AccountName;
-            accToChange.Car = account.Car;
-            accToChange.Role = account.Role;
-            accToChange.Password = account.Password;
-            accToChange.CarId = account.CarId;
-
-            AppContext.Entry(accToChange).State = EntityState.Modified;
-            AppContext.Accounts.Add(accToChange);
+            AppContext.Entry(account).State = EntityState.Modified;
+            AppContext.SaveChanges();
         }
     }
 }

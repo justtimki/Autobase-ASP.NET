@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "DISPATCHER")]
     public class DispatcherController : Controller
     {
         private AccountDAO accountDAO;
@@ -117,16 +117,14 @@ namespace Autobase.Controllers
         {
             Trip trip = new Trip();
             trip.TripDate = DateTime.Now;
-            trip.Oder = order;
             trip.OrderId = order.OrderId;
             trip.TripName = order.OrderName;
-            trip.Car = driver.Car;
             trip.CarId = driver.Car.CarId;
-            trip.Account = driver;
             trip.AccountId = driver.AccountId;
             isTripCreated = !isTripCreated;
             TripDAO.Create(trip);
-
+            order.Status = TripStatusEnum.PERFORMED;
+            OrderDAO.Update(order);
             ViewBag.isTripCreated = isTripCreated;
         }
     }

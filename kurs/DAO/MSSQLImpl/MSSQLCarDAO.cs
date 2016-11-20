@@ -39,17 +39,7 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Car car)
         {
-            Car carToChange = AppContext.Cars.First(c => c.CarId == car.CarId);
-            if (carToChange == null)
-            {
-                throw new ArgumentException("Car with id " + car.CarId + " not found.");
-            }
-            carToChange.CarCapacity = car.CarCapacity;
-            carToChange.CarName = car.CarName;
-            carToChange.CarSpeed = car.CarSpeed;
-            carToChange.IsHealthy = car.IsHealthy;
-
-            AppContext.Entry(carToChange).State = EntityState.Modified;
+            AppContext.Entry(car).State = EntityState.Modified;
             AppContext.SaveChanges();
         }
     }

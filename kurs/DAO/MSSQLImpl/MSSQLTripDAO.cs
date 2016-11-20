@@ -39,22 +39,7 @@ namespace Autobase.DAO.MSSQLImpl
 
         public void Update(Trip trip)
         {
-            Trip tripToChange = AppContext.Trips.First(t => trip.TripId == t.TripId);
-            if (tripToChange == null)
-            {
-                throw new ArgumentException("Trip with id " + trip.TripId + " not found.");
-            }
-
-            tripToChange.Oder = trip.Oder;
-            tripToChange.OrderId = trip.OrderId;
-            tripToChange.Car = trip.Car;
-            tripToChange.CarId = trip.CarId;
-            tripToChange.Account = trip.Account;
-            tripToChange.AccountId = trip.AccountId;
-            tripToChange.TripDate = trip.TripDate;
-            tripToChange.TripName = trip.TripName;
-
-            AppContext.Entry(tripToChange).State = EntityState.Modified;
+            AppContext.Entry(trip).State = EntityState.Modified;
             AppContext.SaveChanges(); 
         }
     }

@@ -30,6 +30,11 @@
                     {
                         <li>@Html.ActionLink("Manage Orders", "DispatcherMain", "Dispatcher")</li>
                     }
+                    else if (User.IsInRole("DRIVER"))
+                    {
+                        <li>@Html.ActionLink("Your Trips", "DriverMain", "Driver")</li>
+                    }
+
                 </ul>
                 @if (User.Identity.IsAuthenticated)
                 {

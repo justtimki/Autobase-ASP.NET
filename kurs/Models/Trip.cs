@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Autobase.Models
 {
     public class Trip
     {
+        [Key]
         public int TripId { get; set; }
         public string TripName { get; set; }
         public DateTime TripDate { get; set; }

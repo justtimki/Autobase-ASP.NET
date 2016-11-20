@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Autobase.App_Context
 {
-    public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<ApplicationContext>
+    public class DatabaseInitializer : DropCreateDatabaseAlways<ApplicationContext>
     {
         private const int ROW_COUNT = 100;
         private CarDAO carDAO;
@@ -101,7 +101,7 @@ namespace Autobase.App_Context
                 acc.Password = RandomUtil.GetInstance.GetRandomString;
                 if (Role.DRIVER.Equals(acc.Role))
                 {
-                    acc.Car = CarDAO.GetById(RandomUtil.GetInstance.GetRandomId);
+                    acc.CarId = RandomUtil.GetInstance.GetRandomId;
                 }
                 AccountDAO.Create(acc);
             }
@@ -127,7 +127,8 @@ namespace Autobase.App_Context
             for (int i = 0; i < ROW_COUNT; i++)
             {
                 trip = new Trip();
-                trip.Oder = OrderDAO.GetOrderById(RandomUtil.GetInstance.GetRandomId);
+                Order order = OrderDAO.GetOrderById(RandomUtil.GetInstance.GetRandomId);
+                trip.OrderId = order.OrderId;
                 Account acc;
                 int j = 0;
                 do
@@ -135,10 +136,15 @@ namespace Autobase.App_Context
                     acc = AccountDAO.GetAccountById(RandomUtil.GetInstance.GetRandomId);
                     j++;
                 }
-                while (acc.Role.Equals(Role.DISPATCHER) || acc.Car?.CarSpeed <= trip.Oder.RequiredCarSpeed && acc.Car?.CarCapacity <= trip.Oder.RequiredCarCapacity);
-                trip.Account = acc;
-                trip.Car = trip.Account.Car;
-                trip.TripName = RandomUtil.GetInstance.GetRandomString;
+                while (acc.Role.Equals(Role.DISPATCHER) 
+                        || acc.Car?.CarSpeed <= order.RequiredCarSpeed 
+                        && acc.Car?.CarCapacity <= order.RequiredCarCapacity);
+
+                trip.AccountId = acc.AccountId;
+
+                trip.CarId = (int)acc.CarId;
+
+                trip.TripName = order.OrderName;
                 trip.TripDate = RandomUtil.GetInstance.GetRandomDate;
                 TripDAO.Create(trip);
             }
