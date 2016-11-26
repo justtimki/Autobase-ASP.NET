@@ -15,7 +15,7 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel-heading">Orders</div>
+    <div class="panel-heading">Trips</div>
     <table class="table sortable">
         <tr>
             <td><b>Trip Number</b></td>
@@ -30,7 +30,7 @@
                 <td>@trip.TripName</td>
                 <td>@trip.TripDate</td>
                 <td>
-                    @Html.ActionLink(" ", "ComleteTrip", "Driver", new { tripId = trip.TripId }, new { @class = "glyphicon glyphicon-ok" })
+                    @Html.ActionLink("Complete Trip", "CompleteTrip", "Driver", new { tripId = trip.TripId }, new { @class = "btn btn-default" })
                 </td>
             </tr>
         }

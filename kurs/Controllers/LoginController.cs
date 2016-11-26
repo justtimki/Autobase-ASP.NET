@@ -2,6 +2,7 @@
 using Autobase.DAO;
 using Autobase.Models;
 using Autobase.Models.enums;
+using Autobase.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,25 @@ namespace Autobase.Controllers
         public ActionResult GetCurrentUserName()
         {
             return new ContentResult { Content = accountDao.GetAccountById(Convert.ToInt32(User.Identity.Name.ToString())).AccountName };
+        }
+
+        public ActionResult Registration()
+        {
+            return View("Registration");
+        }
+
+        public ActionResult DoRegistration(Account account, Car car)
+        {
+            account.Car = car;
+            account.Role = Role.DRIVER;
+            if (VerifyUser(account))
+            {
+                accountDao.Create(account);
+                CreateAuthCookie(account);
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View("Registration");
         }
 
         public ActionResult Logout()
@@ -71,6 +91,37 @@ namespace Autobase.Controllers
             cookie.Expires = timeoutCookie;
             System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
             System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(ticket), new string[] { acc.Role.ToString() });
+        }
+
+        private bool VerifyUser(Account account)
+        {
+            bool isValid = true;
+            if (!ValidationUtil.isNameValid(account.AccountName))
+            {
+                ModelState.AddModelError("AccountName", "Name shouldn't be empty or contains illegal chars.");
+                isValid = false;
+            }
+            if (!ValidationUtil.isPasswordValid(account.Password))
+            {
+                ModelState.AddModelError("Password", "Password shouldn't be empty or shorter than 3 chars.");
+                isValid = false;
+            }
+            if (!ValidationUtil.isNameValid(account.Car.CarName))
+            {
+                ModelState.AddModelError("CarName", "Car Name shouldn't be empty or contains illegal chars.");
+                isValid = false;
+            }
+            if (!ValidationUtil.isNumberValid(account.Car.CarCapacity))
+            {
+                ModelState.AddModelError("CarCapacity", "Car Capacity should be more than 0");
+                isValid = false;
+            }
+            if (!ValidationUtil.isNumberValid(account.Car.CarSpeed))
+            {
+                ModelState.AddModelError("CarCapacity", "Car Speed should be more than 0");
+                isValid = false;
+            }
+            return isValid;
         }
     }
 }

@@ -25,6 +25,7 @@
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Login", "Index", "Login")</li>
+                        <li>@Html.ActionLink("Registration", "Registration", "Login")</li>
                     }
                     @if (User.IsInRole("DISPATCHER"))
                     {
@@ -57,7 +58,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>Created by Aliaksand Kalymaha &copy;</p>
         </footer>
     </div>
 

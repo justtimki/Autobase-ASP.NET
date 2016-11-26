@@ -75,31 +75,43 @@ namespace Autobase.Controllers
 
         public DriverController()
         {
-            relatedTrips = TripDAO.Read()
-                .Where(trip => trip.AccountId == Convert.ToInt32(System.Web.HttpContext.Current.User.Identity.Name)
-                               && TripStatusEnum.PERFORMED.Equals(OrderDAO.GetOrderById(trip.OrderId).Status))
-                .ToList();
-
+            updateRelatedTrips();
             ViewBag.isTripCompleted = isTripCompleted;
         }
 
         // GET: Driver
         public ActionResult DriverMain()
         {
-            ViewBag.relatedTrips = relatedTrips;
             return View();
         }
 
-        public ActionResult ComleteTrip(int tripId)
+        public ActionResult CompleteTrip(int tripId)
         {
-            Trip trip = TripDAO.getTripById(tripId);
-            Order completedOrder = OrderDAO.GetOrderById(trip.OrderId);
-            completedOrder.Status = TripStatusEnum.DONE;
-            OrderDAO.Update(completedOrder);
+            try
+            {
+                Trip trip = TripDAO.getTripById(tripId);
+                Order completedOrder = OrderDAO.GetOrderById(trip.OrderId);
+                completedOrder.Status = TripStatusEnum.DONE;
+                OrderDAO.Update(completedOrder);
 
-            TripDAO.Delete(trip);
-            isTripCompleted = !isTripCompleted;
+                TripDAO.Delete(trip);
+                isTripCompleted = !isTripCompleted;
+                updateRelatedTrips();
+            }
+            catch (Exception e)
+            {
+                return View("DriverMain");
+            }
             return View("DriverMain");
+        }
+
+        private void updateRelatedTrips()
+        {
+            relatedTrips = TripDAO.Read()
+                .Where(trip => trip.AccountId == Convert.ToInt32(System.Web.HttpContext.Current.User.Identity.Name)
+                               && TripStatusEnum.PERFORMED.Equals(OrderDAO.GetOrderById(trip.OrderId).Status))
+                .ToList();
+            ViewBag.relatedTrips = relatedTrips;
         }
     }
 }

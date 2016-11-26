@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Autobase.App_Context
 {
-    public class DatabaseInitializer : DropCreateDatabaseAlways<ApplicationContext>
+    public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<ApplicationContext>
     {
         private const int ROW_COUNT = 100;
         private CarDAO carDAO;
