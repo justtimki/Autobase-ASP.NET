@@ -7,6 +7,6 @@ namespace Autobase.Models.enums
 {
     public enum TripStatusEnum
     {
-        PERFORMED, WAITING, DONE
+        IN_PROCESS, WAITING, DONE
     }
 }

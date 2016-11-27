@@ -1,6 +1,5 @@
 ﻿using Autobase.DAO;
 using Autobase.Models;
-using Autobase.Models.enums;
 using Autobase.Utils;
 using Microsoft.Practices.Unity;
 using System;
@@ -11,8 +10,7 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
-    [Authorize(Roles = "DRIVER")]
-    public class DriverController : Controller
+    public class CarController : Controller
     {
         private AccountDAO accountDAO;
         private CarDAO carDAO;
@@ -70,52 +68,54 @@ namespace Autobase.Controllers
                 return orderDAO;
             }
         }
-
-        private List<Trip> relatedTrips = new List<Trip>();
-        private bool isTripCompleted = false;
-
-        public DriverController()
-        {
-            ViewBag.isTripCompleted = isTripCompleted;
-        }
-
-        // GET: Driver
-        public ActionResult DriverMain()
-        {
-            updateRelatedTrips();
-            return View();
-        }
-
-        public ActionResult CompleteTrip(int tripId)
-        {
-            try
-            {
-                Trip trip = TripDAO.getTripById(tripId);
-                Order completedOrder = OrderDAO.GetOrderById(trip.OrderId);
-                completedOrder.Status = TripStatusEnum.DONE;
-                OrderDAO.Update(completedOrder);
-
-                TripDAO.Delete(trip);
-                isTripCompleted = !isTripCompleted;
-                updateRelatedTrips();
-            }
-            catch (Exception e)
-            {
-                return View("DriverMain");
-            }
-            return View("DriverMain");
-        }
         
-        private void updateRelatedTrips()
+        public ActionResult CarDetails()
         {
-            if (User.Identity.Name != null && User.Identity.Name != string.Empty)
+            SetCurrentAccountCar();
+            return View("CarDetails");
+        }
+
+        public ActionResult UpdateCar(Car car)
+        {
+            if (verifyCar(car))
             {
-                relatedTrips = TripDAO.Read()
-                    .Where(trip => trip.AccountId == Convert.ToInt32(User.Identity.Name)
-                                   && TripStatusEnum.IN_PROCESS.Equals(OrderDAO.GetOrderById(trip.OrderId).Status))
-                    .ToList();
-                ViewBag.relatedTrips = relatedTrips;
+                car.CarId = (int) AccountDAO.GetAccountById(Convert.ToInt32(User.Identity.Name)).CarId;
+                ViewBag.car = car;
+                CarDAO.Update(car);
             }
+            else
+            {
+                SetCurrentAccountCar();
+            }
+            return View("CarDetails");
+        }
+
+        private void SetCurrentAccountCar()
+        {
+            Account currentAccount = AccountDAO.GetAccountById(Convert.ToInt32(User.Identity.Name));
+            ViewBag.car = CarDAO.GetById((int)currentAccount.CarId);
+        }
+
+        private bool verifyCar(Car car)
+        {
+            bool isValid = true;
+            if (!ValidationUtil.isNameValid(car.CarName))
+            {
+                ModelState.AddModelError("CarName", "Car Name shouldn't be empty or contains illegal chars.");
+                isValid = false;
+            }
+            if (!ValidationUtil.isNumberValid(car.CarCapacity))
+            {
+                ModelState.AddModelError("CarCapacity", "Car Capacity should be more than 0");
+                isValid = false;
+            }
+            if (!ValidationUtil.isNumberValid(car.CarSpeed))
+            {
+                ModelState.AddModelError("CarCapacity", "Car Speed should be more than 0");
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }

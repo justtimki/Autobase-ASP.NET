@@ -123,7 +123,7 @@ namespace Autobase.Controllers
             trip.AccountId = driver.AccountId;
             isTripCreated = !isTripCreated;
             TripDAO.Create(trip);
-            order.Status = TripStatusEnum.PERFORMED;
+            order.Status = TripStatusEnum.IN_PROCESS;
             OrderDAO.Update(order);
             ViewBag.isTripCreated = isTripCreated;
         }
