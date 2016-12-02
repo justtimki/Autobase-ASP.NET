@@ -5,30 +5,33 @@
     List<Account> suitableAccounts = ViewBag.suitableAccounts;
 }
 
-<h2>CreateTrip</h2>
+<div class="container">
+    <h2 class="text-center">Please choose a driver</h2>
+    <hr class="star-primary" />
 
-<div class="panel panel-default">
-    <div class="panel-heading">Drivers who can perfom work</div>
-    <table class="table sortable">
-        <tr>
-            <td><b>Driver Name</b></td>
-            <td><b>Car Name</b></td>
-            <td><b>Car Speed</b></td>
-            <td><b>Car Capacity</b></td>
-        </tr>
-        @foreach (Account account in suitableAccounts)
-        {
+    <div class="panel panel-default">
+        <div class="panel-heading">Drivers who can perfom work</div>
+        <table class="table sortable">
             <tr>
-                <td>@account.AccountName</td>
-                <td>@account.Car.CarName</td>
-                <td>@account.Car.CarSpeed</td>
-                <td>@account.Car.CarCapacity</td>
-                <td>
-                    @Html.ActionLink("Create Trip", "CreateTrip", "Dispatcher",
+                <td><b>Driver Name</b></td>
+                <td><b>Car Name</b></td>
+                <td><b>Car Speed</b></td>
+                <td><b>Car Capacity</b></td>
+            </tr>
+            @foreach (Account account in suitableAccounts)
+            {
+                <tr>
+                    <td>@account.AccountName</td>
+                    <td>@account.Car.CarName</td>
+                    <td>@account.Car.CarSpeed</td>
+                    <td>@account.Car.CarCapacity</td>
+                    <td>
+                        @Html.ActionLink("Create Trip", "CreateTrip", "Dispatcher",
                      new { orderId = Request.Params.Get("orderId"), driverId = account.AccountId },
                      new { @class = "btn btn-default" })
-                </td>
-            </tr>
-        }
-    </table>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>

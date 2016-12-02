@@ -13,7 +13,7 @@ namespace Autobase.Controllers
     public class OrderController : Controller
     {
         [Dependency]
-        OrderService orderService { get; set; }
+        public OrderService orderService { get; set; }
 
         public ActionResult RemoveOrder(int orderId)
         {

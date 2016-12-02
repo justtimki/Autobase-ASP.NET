@@ -28,8 +28,8 @@ namespace Autobase.Controllers
 
         public ActionResult DispatcherMain()
         {
-            ViewBag.driversAccounts = accountService.FindAllDrivers();
-            ViewBag.orders = orderService.FindAllOrders();
+            UpdateDrivers();
+            UpdateOrders();
             return View();
         }
 
@@ -45,12 +45,24 @@ namespace Autobase.Controllers
             {
                 tripService.CreateTrip(orderId, driverId);
                 ViewBag.isTripCreated = !isTripCreated;
+                UpdateDrivers();
+                UpdateOrders();
                 return View("DispatcherMain");
             }
             catch (Exception e)
             {
                 return View("Error");
             }
+        }
+
+        private void UpdateDrivers()
+        {
+            ViewBag.driversAccounts = accountService.FindAllDrivers();
+        }
+
+        private void UpdateOrders()
+        {
+            ViewBag.orders = orderService.FindAllOrders();
         }
     }
 }

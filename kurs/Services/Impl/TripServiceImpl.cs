@@ -22,6 +22,9 @@ namespace Autobase.Services.Impl
         [Dependency]
         public OrderDAO OrderDAO { get; set; }
 
+        [Dependency]
+        public CarDAO CarDAO { get; set; }
+
         public List<Trip> FindTripsRelatedTo(string currentUser)
         {
             List<Trip> relatedTrips = new List<Trip>();
@@ -50,6 +53,8 @@ namespace Autobase.Services.Impl
         {
             Account driver = AccountDAO.GetAccountById(driverId);
             Order order = OrderDAO.GetOrderById(orderId);
+            Car car = CarDAO.GetById((int) driver.CarId);
+            driver.Car = car;
             Trip trip = new Trip();
             trip.TripDate = DateTime.Now;
             trip.OrderId = order.OrderId;
