@@ -5,46 +5,40 @@
     List<Trip> relatedTrips = ViewBag.relatedTrips;
 }
 
-<h2>DriverMain</h2>
+<div class="container">
+    <div class="row">
+        <h2 class="text-center">Trips Managment</h2>
+        <hr class="star-primary" />
 
-@if (ViewBag.isTripCreated != null && ViewBag.isTripCreated)
-{
-    <div class="alert alert-success" role="alert">
-        <b>Well done!</b> You successfully created trip.
-    </div>
-}
-
-<div class="panel panel-default">
-    <div class="panel-heading">Filters</div>
-    <div class="panel-body">
-        <select>
-            <option value="DONE">DONE</option>
-            <option value="IN_PROCESS">IN_PROCESS</option>
-            <option value="WAITING">WAITING</option>
-        </select>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">Trips</div>
-    <table class="table sortable">
-        <tr>
-            <td><b>Trip Number</b></td>
-            <td><b>Trip Name</b></td>
-            <td><b>Trip Date</b></td>
-            <td></td>
-        </tr>
-        @foreach (Trip trip in relatedTrips)
+        @if (ViewBag.isTripCreated != null && ViewBag.isTripCreated)
         {
-            <tr>
-                <td>@trip.TripId</td>
-                <td>@trip.TripName</td>
-                <td>@trip.TripDate</td>
-                <td>
-                    @Html.ActionLink("Complete Trip", "CompleteTrip", "Driver", new { tripId = trip.TripId }, new { @class = "btn btn-default" })
-                </td>
-            </tr>
+            <div class="alert alert-success" role="alert">
+                <b>Well done!</b> You successfully created trip.
+            </div>
         }
-    </table>
 
+        <div class="panel panel-default">
+            <div class="panel-heading">Trips</div>
+            <table class="table sortable">
+                <tr>
+                    <td><b>Trip Number</b></td>
+                    <td><b>Trip Name</b></td>
+                    <td><b>Trip Date</b></td>
+                    <td></td>
+                </tr>
+                @foreach (Trip trip in relatedTrips)
+                {
+                    <tr>
+                        <td>@trip.TripId</td>
+                        <td>@trip.TripName</td>
+                        <td>@trip.TripDate</td>
+                        <td>
+                            @Html.ActionLink("Complete Trip", "CompleteTrip", "Driver", new { tripId = trip.TripId }, new { @class = "btn btn-default" })
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
 </div>

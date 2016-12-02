@@ -5,48 +5,48 @@
     ViewBag.Title = "CarDetails";
 }
 
-<h2>CarDetails</h2>
-
 <main>
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
+            <h2 class="text-center">Car Details</h2>
+            <hr class="star-primary" />
+            <div class="col-lg-8 col-lg-offset-2">
                 @using (Html.BeginForm("UpdateCar", "Car", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
-                    <label for="carName">Car Name</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"></span>
-                            <input type="text" name="CarName" id="carName" class="form-control"
-                                   placeholder="car name" value="@car.CarName">
-                        </div>
+                    <div class="form-group">
+                        <label for="carName">Car Name</label>
+                        <input type="text" name="CarName" id="carName" class="form-control"
+                               placeholder="car name" value="@car.CarName">
+                    </div>
 
+                    <div class="form-group">
                         <label for="carSpeed">Car Speed</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"></span>
-                            <input type="number" name="CarSpeed" id="carSpeed" class="form-control"
-                                   placeholder="car speed" value="@car.CarSpeed">
-                        </div>
+                        <input type="number" name="CarSpeed" id="carSpeed" class="form-control"
+                               placeholder="car speed" value="@car.CarSpeed">
+                    </div>
 
+                    <div class="form-group">
                         <label for="carName">Car Capacity</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"></span>
-                            <input type="number" name="CarCapacity" id="carName" class="form-control"
-                                   placeholder="car capacity" value="@car.CarCapacity">
-                        </div>
+                        <input type="number" name="CarCapacity" id="carName" class="form-control"
+                               placeholder="car capacity" value="@car.CarCapacity">
+                    </div>
 
+                    <div class="form-group">
                         <label for="sel1">Car Healthy</label>
-                        <div class="form-group">
-                            <select class="form-control" id="sel1" name="IsHealthy">
-                                <option value="true">yes</option>
-                                <option value="false">no</option>
-                            </select>
-                        </div>
+                        <select class="form-control" id="sel1" name="IsHealthy">
+                            <option value="true">yes</option>
+                            <option value="false">no</option>
+                        </select>
+                    </div>
 
-                        <input type="submit" class="btn btn-default" value="Update" />
-
+                    <input type="submit" class="btn btn-success btn-lg" style="float: right;" value="Update" />
                 }
             </div>
-            <div class="col-md-5">
+        </div>
+    </div>
+    <div class="container" style="padding-top: 40px;">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
                 @Html.ValidationSummary("", new { @class = "text-danger" })
             </div>
         </div>

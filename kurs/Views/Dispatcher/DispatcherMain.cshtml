@@ -6,55 +6,92 @@
     List<Order> orders = ViewBag.orders;
 }
 
-<h2>DispatcherMain</h2>
+<div class="container">
+    <h2 class="text-center">Orders Managment</h2>
+    <hr class="star-primary" />
 
-@if (ViewBag.isTripCompleted != null && ViewBag.isTripCompleted)
-{
-    <div class="alert alert-success" role="alert">
-        <b>Well done!</b> You successfully completed trip.
+    @if (ViewBag.isTripCompleted != null && ViewBag.isTripCompleted)
+    {
+        <div class="alert alert-success" role="alert">
+            <b>Well done!</b> You successfully completed trip.
+        </div>
+    }
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Filters</div>
+        <div class="panel-body">
+            <select id="stateFilter">
+                <option value="" disabled selected></option>
+                <option value="DONE">DONE</option>
+                <option value="IN_PROCESS">IN_PROCESS</option>
+                <option value="WAITING">WAITING</option>
+                <option value="DISABLE">Disable Filter</option>
+            </select>
+        </div>
     </div>
-}
 
-<div class="panel panel-default">
-    <div class="panel-heading">Orders</div>
-    <table class="table sortable">
-        <tr>
-            <td><b>Order Number</b></td>
-            <td><b>Order Name</b></td>
-            <td><b>Required Car Speed</b></td>
-            <td><b>Required Car Capacity</b></td>
-            <td><b>Status</b></td>
-        </tr>
-        @foreach (Order order in orders)
-        {
-            string bgColor = string.Empty;
-            if (TripStatusEnum.DONE.Equals(order.Status))
-            {
-                bgColor = "#DFF0D8";
-            }
-            else if (TripStatusEnum.IN_PROCESS.Equals(order.Status))
-            {
-                bgColor = "#FCF8E3";
-            }
-            else
-            {
-                bgColor = "#fff";
-            }
+    <script>
+        $('#stateFilter').change(function () {
+            console.log($('#stateFilter').val());
+            $.ajax({
+                type: 'GET',
+                url: '/Filter/FilterByState',
+                contentType: 'application/json; charset=utf-8',
+                data: { status: $('#stateFilter option:selected').val() },
+                success: function (result) {
+                    $('body').html(result);
+                    '@{ orders = TempData["orders"] != null ? (List<Order>)TempData["orders"] : ViewBag.orders; }'
+                }
+            });
+        });
 
-            <tr style = "@("background-color:" + bgColor)">
-                <td>@order.OrderId</td>
-                <td>@order.OrderName</td>
-                <td>@order.RequiredCarSpeed</td>
-                <td>@order.RequiredCarCapacity</td>
-                <td>@order.Status</td>
-                <td>
-                    @if (TripStatusEnum.WAITING.Equals(order.Status))
-                    {
-                        @Html.ActionLink("Create Trip", "ChooseDriver", "Dispatcher", new { orderId = order.OrderId }, new { @class = "btn btn-default" })
-                    }
-                </td>
+    </script>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Orders</div>
+        <table class="table sortable">
+            <tr>
+                <td><b>Order Number</b></td>
+                <td><b>Order Name</b></td>
+                <td><b>Required Car Speed</b></td>
+                <td><b>Required Car Capacity</b></td>
+                <td><b>Status</b></td>
             </tr>
-        }
-    </table>
+            @foreach (Order order in orders)
+            {
+                string bgColor = string.Empty;
+                if (TripStatusEnum.DONE.Equals(order.Status))
+                {
+                    bgColor = "#DFF0D8";
+                }
+                else if (TripStatusEnum.IN_PROCESS.Equals(order.Status))
+                {
+                    bgColor = "#FCF8E3";
+                }
+                else
+                {
+                    bgColor = "#fff";
+                }
 
+                <tr style="@("background-color:" + bgColor)">
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderName</td>
+                    <td>@order.RequiredCarSpeed</td>
+                    <td>@order.RequiredCarCapacity</td>
+                    <td>@order.Status</td>
+                    <td>
+                        @if (TripStatusEnum.WAITING.Equals(order.Status))
+                        {
+                            @Html.ActionLink(" ", "ChooseDriver", "Dispatcher", new { orderId = order.OrderId }, new { @class = "create-trip-button" })
+                        }
+                        @if (TripStatusEnum.DONE.Equals(order.Status))
+                        {
+                            @Html.ActionLink(" ", "RemoveOrder", "Order", new { orderId = order.OrderId }, new { @class = "delete-order-button" })
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
 </div>

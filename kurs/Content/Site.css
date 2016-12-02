@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -16,9 +16,137 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.navbar {
+    background-color: #2C3E50;
+    padding: 25px 0;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+}
+
+header {
+    margin-top: -20px;
+    padding-top: 40px;
+    text-align: center;
+    height: 100vh;
+    background-color: #18BC9C;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+    font-size: 2em;
+    border: none;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #18BC9C;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.main img {
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.name {
+    color: #fff;
+    font-size: 4.5em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.copy {
+    color: #fff;
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+hr.star-light,
+hr.star-primary {
+    padding: 0;
+    border: none;
+    border-top: solid 5px;
+    text-align: center;
+    max-width: 250px;
+    margin: 25px auto 30px;
+}
+
+hr.star-light:after,
+hr.star-primary:after {
+    content: "\26A1";
+    font-family: FontAwesome;
+    display: inline-block;
+    position: relative;
+    top: -0.8em;
+    font-size: 2em;
+    padding: 0 0.25em;
+}
+
+hr.star-light {
+    border-color: white;
+}
+
+hr.star-light:after {
+    background-color: #18BC9C;
+    color: white;
+}
+
+hr.star-primary {
+    border-color: #2C3E50;
+}
+
+hr.star-primary:after {
+    background-color: white;
+    color: #2C3E50;
+}
+
+.text-center {
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.form-control {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #EEEEEE;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #EEEEEE;
+    box-shadow: none;
+}
+
+.create-trip-button,
+.delete-order-button {
+    width: 25px;
+    height: 25px;
+}
+
+.create-trip-button:after {
+    content: "\271A";
+    display: inline-block;
+    position: relative;
+    font-size: 1.5em;
+    color: #4CAF50;
+}
+
+.delete-order-button:after {
+    content: "\2716";
+    display: inline-block;
+    position: relative;
+    font-size: 1.5em;
+    color: #cc0000;
 }
