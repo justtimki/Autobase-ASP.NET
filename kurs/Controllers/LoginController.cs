@@ -2,7 +2,9 @@
 using Autobase.DAO;
 using Autobase.Models;
 using Autobase.Models.enums;
+using Autobase.Services;
 using Autobase.Utils;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +16,9 @@ namespace Autobase.Controllers
 {
     public class LoginController : Controller
     {
-        readonly AccountDAO accountDao;
+        [Dependency]
+        public AccountService accountService { get; set; }
 
-        public LoginController(AccountDAO accountDao)
-        {
-            this.accountDao = accountDao;
-        }
-
-        // GET: Login
         public ActionResult Index()
         {
             return View("LoginPage");
@@ -29,7 +26,9 @@ namespace Autobase.Controllers
 
         public ActionResult GetCurrentUserName()
         {
-            return new ContentResult { Content = accountDao.GetAccountById(Convert.ToInt32(User.Identity.Name.ToString())).AccountName };
+            return new ContentResult {
+                Content = accountService.FindAccountById(Convert.ToInt32(User.Identity.Name.ToString())).AccountName
+            };
         }
 
         public ActionResult Registration()
@@ -43,7 +42,7 @@ namespace Autobase.Controllers
             account.Role = Role.DRIVER;
             if (VerifyUser(account))
             {
-                accountDao.Create(account);
+                accountService.CreateDriverAccount(account);
                 CreateAuthCookie(account);
                 return RedirectToAction("Index", "Home");
             }
@@ -59,7 +58,7 @@ namespace Autobase.Controllers
 
         public ActionResult Authenticate(string login, string password)
         {
-            Account acc = accountDao.GetAccountByNameAndPass(login, password);
+            Account acc = accountService.FindAccountByNameAndPassword(login, password);
             if (acc == null)
             {
                 ModelState.AddModelError("Wrong input", Resources.Resource.WrongLoginOrPassword);

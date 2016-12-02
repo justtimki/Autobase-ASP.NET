@@ -1,5 +1,6 @@
 ﻿using Autobase.DAO;
 using Autobase.Models;
+using Autobase.Services;
 using Autobase.Utils;
 using Microsoft.Practices.Unity;
 using System;
@@ -10,65 +11,12 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
+    [Authorize(Roles = "DRIVER")]
     public class CarController : Controller
     {
-        private AccountDAO accountDAO;
-        private CarDAO carDAO;
-        private TripDAO tripDAO;
-        private OrderDAO orderDAO;
-
         [Dependency]
-        public AccountDAO AccountDAO
-        {
-            get
-            {
-                if (accountDAO == null)
-                {
-                    accountDAO = DependencyResolver.Current.GetService<AccountDAO>();
-                }
-                return accountDAO;
-            }
-        }
-
-        [Dependency]
-        public CarDAO CarDAO
-        {
-            get
-            {
-                if (carDAO == null)
-                {
-                    carDAO = DependencyResolver.Current.GetService<CarDAO>();
-                }
-                return carDAO;
-            }
-        }
-
-        [Dependency]
-        public TripDAO TripDAO
-        {
-            get
-            {
-                if (tripDAO == null)
-                {
-                    tripDAO = DependencyResolver.Current.GetService<TripDAO>();
-                }
-                return tripDAO;
-            }
-        }
-
-        [Dependency]
-        public OrderDAO OrderDAO
-        {
-            get
-            {
-                if (orderDAO == null)
-                {
-                    orderDAO = DependencyResolver.Current.GetService<OrderDAO>();
-                }
-                return orderDAO;
-            }
-        }
-        
+        public CarService carService { get; set; }
+                
         public ActionResult CarDetails()
         {
             SetCurrentAccountCar();
@@ -77,23 +25,27 @@ namespace Autobase.Controllers
 
         public ActionResult UpdateCar(Car car)
         {
-            if (verifyCar(car))
+            try
             {
-                car.CarId = (int) AccountDAO.GetAccountById(Convert.ToInt32(User.Identity.Name)).CarId;
-                ViewBag.car = car;
-                CarDAO.Update(car);
+                if (verifyCar(car))
+                {
+                    ViewBag.car = carService.UpdateCar(car, User.Identity.Name);
+                }
+                else
+                {
+                    SetCurrentAccountCar();
+                }
             }
-            else
+            catch (Exception e)
             {
-                SetCurrentAccountCar();
+                return View("Error");
             }
             return View("CarDetails");
         }
 
         private void SetCurrentAccountCar()
         {
-            Account currentAccount = AccountDAO.GetAccountById(Convert.ToInt32(User.Identity.Name));
-            ViewBag.car = CarDAO.GetById((int)currentAccount.CarId);
+            ViewBag.car = carService.GetDriversCar(User.Identity.Name);
         }
 
         private bool verifyCar(Car car)

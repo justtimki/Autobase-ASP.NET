@@ -1,6 +1,7 @@
 ﻿using Autobase.DAO;
 using Autobase.Models;
 using Autobase.Models.enums;
+using Autobase.Services;
 using Autobase.Utils;
 using Microsoft.Practices.Unity;
 using System;
@@ -14,64 +15,9 @@ namespace Autobase.Controllers
     [Authorize(Roles = "DRIVER")]
     public class DriverController : Controller
     {
-        private AccountDAO accountDAO;
-        private CarDAO carDAO;
-        private TripDAO tripDAO;
-        private OrderDAO orderDAO;
-
         [Dependency]
-        public AccountDAO AccountDAO
-        {
-            get
-            {
-                if (accountDAO == null)
-                {
-                    accountDAO = DependencyResolver.Current.GetService<AccountDAO>();
-                }
-                return accountDAO;
-            }
-        }
+        public TripService tripService { get; set; }
 
-        [Dependency]
-        public CarDAO CarDAO
-        {
-            get
-            {
-                if (carDAO == null)
-                {
-                    carDAO = DependencyResolver.Current.GetService<CarDAO>();
-                }
-                return carDAO;
-            }
-        }
-
-        [Dependency]
-        public TripDAO TripDAO
-        {
-            get
-            {
-                if (tripDAO == null)
-                {
-                    tripDAO = DependencyResolver.Current.GetService<TripDAO>();
-                }
-                return tripDAO;
-            }
-        }
-
-        [Dependency]
-        public OrderDAO OrderDAO
-        {
-            get
-            {
-                if (orderDAO == null)
-                {
-                    orderDAO = DependencyResolver.Current.GetService<OrderDAO>();
-                }
-                return orderDAO;
-            }
-        }
-
-        private List<Trip> relatedTrips = new List<Trip>();
         private bool isTripCompleted = false;
 
         public DriverController()
@@ -79,7 +25,6 @@ namespace Autobase.Controllers
             ViewBag.isTripCompleted = isTripCompleted;
         }
 
-        // GET: Driver
         public ActionResult DriverMain()
         {
             updateRelatedTrips();
@@ -90,32 +35,20 @@ namespace Autobase.Controllers
         {
             try
             {
-                Trip trip = TripDAO.getTripById(tripId);
-                Order completedOrder = OrderDAO.GetOrderById(trip.OrderId);
-                completedOrder.Status = TripStatusEnum.DONE;
-                OrderDAO.Update(completedOrder);
-
-                TripDAO.Delete(trip);
+                tripService.CompleteTrip(tripId);
                 isTripCompleted = !isTripCompleted;
                 updateRelatedTrips();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 return View("DriverMain");
             }
             return View("DriverMain");
         }
-        
+
         private void updateRelatedTrips()
         {
-            if (User.Identity.Name != null && User.Identity.Name != string.Empty)
-            {
-                relatedTrips = TripDAO.Read()
-                    .Where(trip => trip.AccountId == Convert.ToInt32(User.Identity.Name)
-                                   && TripStatusEnum.IN_PROCESS.Equals(OrderDAO.GetOrderById(trip.OrderId).Status))
-                    .ToList();
-                ViewBag.relatedTrips = relatedTrips;
-            }
+            ViewBag.relatedTrips = tripService.FindTripsRelatedTo(User.Identity.Name);
         }
     }
 }

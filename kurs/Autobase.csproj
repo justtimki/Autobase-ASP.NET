@@ -192,6 +192,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\CarService.cs" />
+    <Compile Include="Services\Impl\AccountServiceImpl.cs" />
+    <Compile Include="Services\Impl\CarServiceImpl.cs" />
+    <Compile Include="Services\Filters\Filter.cs" />
+    <Compile Include="Services\Filters\FilterImpl.cs" />
+    <Compile Include="Services\Impl\OrderServiceImpl.cs" />
+    <Compile Include="Services\Impl\TripServiceImpl.cs" />
+    <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\TripService.cs" />
     <Compile Include="Utils\RandomUtil.cs" />
     <Compile Include="Utils\ValidationUtil.cs" />
   </ItemGroup>
