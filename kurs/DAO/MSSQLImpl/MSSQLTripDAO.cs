@@ -40,7 +40,7 @@ namespace Autobase.DAO.MSSQLImpl
         public void Update(Trip trip)
         {
             AppContext.Entry(trip).State = EntityState.Modified;
-            AppContext.SaveChanges(); 
+            AppContext.SaveChanges();
         }
     }
 }

@@ -29,5 +29,9 @@ namespace Autobase.Services.Impl
             OrderDAO.Delete(OrderDAO.GetOrderById(orderId));
         }
 
+        public void UpdateOrder(Order order)
+        {
+            OrderDAO.Update(order);
+        }
     }
 }

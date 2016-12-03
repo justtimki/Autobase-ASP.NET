@@ -126,27 +126,30 @@ namespace Autobase.App_Context
             Trip trip = null;
             for (int i = 0; i < ROW_COUNT; i++)
             {
-                trip = new Trip();
                 Order order = OrderDAO.GetOrderById(RandomUtil.GetInstance.GetRandomId);
-                trip.OrderId = order.OrderId;
-                Account acc;
-                int j = 0;
-                do
+                if (TripStatusEnum.IN_PROCESS.Equals(order.Status))
                 {
-                    acc = AccountDAO.GetAccountById(RandomUtil.GetInstance.GetRandomId);
-                    j++;
+                    trip = new Trip();
+                    trip.OrderId = order.OrderId;
+                    Account acc;
+                    int j = 0;
+                    do
+                    {
+                        acc = AccountDAO.GetAccountById(RandomUtil.GetInstance.GetRandomId);
+                        j++;
+                    }
+                    while (acc.Role.Equals(Role.DISPATCHER)
+                            || acc.Car?.CarSpeed <= order.RequiredCarSpeed
+                            && acc.Car?.CarCapacity <= order.RequiredCarCapacity);
+
+                    trip.AccountId = acc.AccountId;
+
+                    trip.CarId = (int)acc.CarId;
+
+                    trip.TripName = order.OrderName;
+                    trip.TripDate = RandomUtil.GetInstance.GetRandomDate;
+                    TripDAO.Create(trip);
                 }
-                while (acc.Role.Equals(Role.DISPATCHER) 
-                        || acc.Car?.CarSpeed <= order.RequiredCarSpeed 
-                        && acc.Car?.CarCapacity <= order.RequiredCarCapacity);
-
-                trip.AccountId = acc.AccountId;
-
-                trip.CarId = (int)acc.CarId;
-
-                trip.TripName = order.OrderName;
-                trip.TripDate = RandomUtil.GetInstance.GetRandomDate;
-                TripDAO.Create(trip);
             }
         }
     }

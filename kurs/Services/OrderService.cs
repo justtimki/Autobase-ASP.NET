@@ -14,5 +14,6 @@ namespace Autobase.Services
         Order FindOrderById(int orderId);
 
         void RemoveOrder(int orderId);
+        void UpdateOrder(Order order);
     }
 }

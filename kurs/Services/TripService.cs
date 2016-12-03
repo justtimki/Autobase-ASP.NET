@@ -12,6 +12,6 @@ namespace Autobase.Services
         List<Trip> FindTripsRelatedTo(string currentUser);
         void CompleteTrip(int tripId);
         void CreateTrip(int orderId, int driverId);
-
+        Trip FindTripByOrderId(int orderId);
     }
 }

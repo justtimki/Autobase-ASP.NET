@@ -16,7 +16,7 @@ namespace Autobase.Models
         public DateTime TripDate { get; set; }
 
         public int OrderId { get; set; }
-        public Order Oder { get; set; }
+        public Order Order { get; set; }
 
         public int AccountId { get; set; }
         public Account Account { get; set; }

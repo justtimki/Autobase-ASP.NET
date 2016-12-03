@@ -65,5 +65,17 @@ namespace Autobase.Services.Impl
             order.Status = TripStatusEnum.IN_PROCESS;
             OrderDAO.Update(order);
         }
+
+        public Trip FindTripByOrderId(int orderId)
+        {
+            Order order = OrderDAO.GetOrderById(orderId);
+            Trip trip = TripDAO.Read().First(t => t.OrderId == orderId);
+            Car car = CarDAO.GetById(trip.CarId);
+            Account account = AccountDAO.GetAccountById(trip.AccountId);
+            trip.Order = order;
+            trip.Account = account;
+            trip.Car = car;
+            return trip;
+        }
     }
 }

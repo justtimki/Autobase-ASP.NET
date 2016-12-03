@@ -1,0 +1,101 @@
+﻿@using Autobase.Models
+@using Autobase.Models.enums
+
+<div class="container order-details">
+    <div class="row">
+        <div class="modal-body col-lg-8 col-lg-offset-2">
+            @if (Model is Trip && (TripStatusEnum.DONE.Equals(Model.Order.Status) || TripStatusEnum.IN_PROCESS.Equals(Model.Order.Status)))
+            {
+                <div class="row">
+                    <h2 class="text-center">Information about trip @Model.TripName</h2>
+                    <hr class="star-primary" />
+                    <div class="form-group">
+                        <label>Status: </label>
+                        <input type="text" class="form-control" value="@Model.Order.Status" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Start date: </label>
+                        <input type="datetime" disabled class="form-control" value="@Model.TripDate">
+                    </div>
+
+                    <h2 class="text-center modal-title">Information about driver @Model.Account.AccountName</h2>
+                    <hr class="star-primary" />
+                    <div class="form-group">
+                        <label>Car Model: </label>
+                        <input type="text" class="form-control" value="@Model.Car.CarName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Car Speed: </label>
+                        <input type="number" class="form-control" value="@Model.Car.CarSpeed" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Car Capacity: </label>
+                        <input type="number" class="form-control" value="@Model.Car.CarCapacity" disabled>
+                    </div>
+                </div>
+            }
+            @if (Model is Order && TripStatusEnum.WAITING.Equals(Model.Status))
+            {
+                <div class="row">
+                    <h2 class="text-center">Information about trip @Model.OrderName</h2>
+                    <hr class="star-primary" />
+                    <div class="form-group">
+                        <label>Status: </label>
+                        <input type="text" class="form-control" value="@Model.Status" disabled>
+                    </div>
+                    <h2 class="text-center">Requirements</h2>
+                    <hr class="star-primary" />
+                    <div class="form-group">
+                        <label>Reqiured Car Speed: </label>
+                        <input type="number" class="form-control" value="@Model.RequiredCarSpeed">
+                    </div>
+                    <div class="form-group">
+                        <label>Reqiured Car Capacity: </label>
+                        <input type="number" class="form-control" value="@Model.RequiredCarCapacity">
+                    </div>
+
+                    <div class="alert alert-warning" role="alert">This Order is waiting for driver.</div>
+                    @Html.ActionLink("Choose Driver", "ChooseDriver", "Dispatcher", new { orderId = Model.OrderId }, new { @class = "btn btn-default" })
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-5 col-md-offset-5">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        Cancel
+                    </button>
+                    @if (Model is Order)
+                    {
+                        if (!TripStatusEnum.WAITING.Equals(Model.Status))
+                        {
+                            <input type="button" id="approve-btn"
+                                   class="btn btn-danger disabled" value="Update">
+                        }
+                        else
+                        {
+                            <input type="submit" id="approve-btn"
+                                   class="btn btn-danger" value="Update">
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+
+    $('#approve-btn').on().click(() => {
+        $.ajax({
+            url: '/Order/UpdateOrder',
+            data: ({ 'orderId': '@Model?.OrderId', 'RequiredCarSpeed': '@Model?.RequiredCarSpeed', 'RequiredCarCapacity': '@Model?.RequiredCarCapacity' }),
+            success: (resp) => {
+                $('#modal-container').modal('hide');
+            }
+        });
+    });
+</script>

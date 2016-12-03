@@ -130,7 +130,8 @@ hr.star-primary:after {
 }
 
 .create-trip-button,
-.delete-order-button {
+.delete-order-button,
+.order-details-button {
     width: 25px;
     height: 25px;
 }
@@ -149,4 +150,33 @@ hr.star-primary:after {
     position: relative;
     font-size: 1.5em;
     color: #cc0000;
+}
+
+.order-details-button:after {
+    content: "\270E";
+    display: inline-block;
+    position: relative;
+    font-size: 1.5em;
+    color: #2C3E50;
+}
+
+.modal-content {
+    width: 600px !important;
+    margin: 30px auto !important;
+}
+
+.modal-body {
+    background: #fff;
+    padding: 20px 80px;
+}
+
+.container.order-details {
+    margin: 100px auto
+}
+
+ .modal-title {
+     margin-top: 50px;
+ }
+.modal-link.order-details-button:hover {
+    text-decoration: none;
 }

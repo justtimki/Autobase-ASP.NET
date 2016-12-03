@@ -251,11 +251,11 @@
     <Content Include="Views\Driver\DriverMain.cshtml" />
     <Content Include="Views\Login\Registration.cshtml" />
     <Content Include="Views\Car\CarDetails.cshtml" />
+    <Content Include="Views\Order\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Filter\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
