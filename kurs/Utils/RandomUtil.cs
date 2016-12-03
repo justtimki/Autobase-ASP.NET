@@ -53,7 +53,7 @@ namespace Autobase.Utils
         {
             get
             {
-                return Math.Abs(rand.NextDouble());
+                return rand.NextDouble() * 100;
             }
         }
 
@@ -95,7 +95,7 @@ namespace Autobase.Utils
         private void InitAlphaber()
         {
             alphabet = new List<char>();
-            for (char i = 'A'; i <= 'z'; i++)
+            for (char i = 'A'; i <= 'Z'; i++)
             {
                 alphabet.Add(i);
             }
